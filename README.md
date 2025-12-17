@@ -1,7 +1,7 @@
 # Payload Label Popover Plugin
 #### Adds an accessible popover to [Payload](https://payloadcms.com/) field labels with [React Tiny Popover](https://github.com/alexkatz/react-tiny-popover).
 
-![image](https://github.com/notchris/payload-label-popover/blob/main/example.png?raw=true)
+![image](https://github.com/notchris/payload-label-popover-3/blob/main/example.png?raw=true)
 
 ## Requirements
 - Payload `3.0.0` or newer (uses the v3 plugin + client component API).
@@ -9,9 +9,9 @@
 ## Installation
 
 ```bash
-yarn add payload-label-popover-v3
+yarn add payload-label-popover-3
 # or
-npm install payload-label-popover-v3
+npm install payload-label-popover-3
 ```
 
 ## Setup
@@ -20,7 +20,7 @@ Register the plugin inside your Payload config. When enabled the plugin traverse
 (`fields`, `blocks`, `tabs`, etc.) and automatically swaps the label component whenever a field opts in.
 
 ```ts
-import { labelPopoverPlugin } from 'payload-label-popover'
+import { labelPopoverPlugin } from 'payload-label-popover-3'
 
 export default buildConfig({
   // …other config
@@ -71,13 +71,13 @@ active admin language automatically.
 
 ## Client component export
 
-The plugin registers its own label component (`payload-label-popover/client#LabelPopover`). If you ever need to mount it
+The plugin registers its own label component (`payload-label-popover-3/client#LabelPopover`). If you ever need to mount it
 manually (for example inside a custom admin route), you can import it yourself:
 
 ```tsx
 'use client'
 
-import { LabelPopover } from 'payload-label-popover/client'
+import { LabelPopover } from 'payload-label-popover-3/client'
 
 export const CustomLabel = () => (
   <LabelPopover

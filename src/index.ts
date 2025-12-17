@@ -1,6 +1,6 @@
 import type { CollectionConfig, CollectionSlug, Config, Field } from 'payload'
 
-const LABEL_COMPONENT_PATH = 'payload-label-popover/client#LabelPopover'
+const LABEL_COMPONENT_PATH = 'payload-label-popover-3/client#LabelPopover'
 const LABEL_POPOVER_ADMIN_KEY = '__labelPopoverPlugin'
 
 export type LabelPopoverPluginConfig = {

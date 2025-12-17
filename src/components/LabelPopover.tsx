@@ -1,16 +1,12 @@
 'use client'
 
 import type { FieldLabelClientProps } from 'payload'
-import { getTranslation, type I18nClient } from '@payloadcms/translations'
-import { useTranslation } from '@payloadcms/ui'
 import { ArrowContainer, Popover } from 'react-tiny-popover'
 import type { PopoverState } from 'react-tiny-popover'
 import React, { ReactNode, useMemo, useState } from 'react'
 
-type TranslationObject = Record<string, string>
-
 type LabelPopoverCustomConfig = {
-  labelPopover?: ReactNode | TranslationObject | string
+  labelPopover?: ReactNode | string
   showLabelPopover?: boolean
 }
 
@@ -23,9 +19,6 @@ const ADMIN_CUSTOM_KEY = '__labelPopoverPlugin'
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
-
-const isTranslation = (value: unknown): value is TranslationObject =>
-  isRecord(value) && Object.values(value).every(v => typeof v === 'string')
 
 const readAdminCustomConfig = (field?: FieldLabelClientProps['field']): LabelPopoverCustomConfig | null => {
   if (!field) return null
@@ -105,17 +98,12 @@ const isFieldRequired = (field?: FieldLabelClientProps['field']): boolean => {
 }
 
 const formatPopoverContent = (
-  content: LabelPopoverCustomConfig['labelPopover'],
-  i18n: Pick<I18nClient, 'fallbackLanguage' | 'language' | 't'>,
+  content: LabelPopoverCustomConfig['labelPopover']
 ): ReactNode | string => {
   if (!content) return ''
 
   if (typeof content === 'string') {
     return content
-  }
-
-  if (isTranslation(content)) {
-    return getTranslation(content, i18n)
   }
 
   return content
@@ -124,7 +112,6 @@ const formatPopoverContent = (
 export const LabelPopover = (props: LabelPopoverProps) => {
   const { label, required, field, customConfig, className } = props
 
-  const { t, i18n } = useTranslation()
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   const { labelPopover, showLabelPopover } = useMemo(
@@ -133,8 +120,8 @@ export const LabelPopover = (props: LabelPopoverProps) => {
   )
 
   const popoverContent = useMemo(
-    () => formatPopoverContent(labelPopover, i18n),
-    [i18n, labelPopover],
+    () => formatPopoverContent(labelPopover),
+    [labelPopover],
   )
 
   const fieldLabel = getFieldLabel(field)
@@ -145,8 +132,7 @@ export const LabelPopover = (props: LabelPopoverProps) => {
     return null
   }
 
-  const moreInfoLabel =
-    (typeof t === 'function' ? (t as (key: string) => string)('general:moreInfo') : undefined) || 'More info'
+  const moreInfoLabel = 'More info'
 
   const handleMouseEnter = () => setIsPopoverOpen(true)
   const handleMouseLeave = () => setIsPopoverOpen(false)
@@ -154,13 +140,12 @@ export const LabelPopover = (props: LabelPopoverProps) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className={className}>
       <span>
-        {getTranslation(labelContent, {
-          fallbackLanguage: i18n.fallbackLanguage,
-          language: i18n.language,
-          t: i18n.t,
-        })}
-        {isRequired && <span className="required">*</span>}
+        <>
+          {labelContent}
+          {isRequired && <span className="required">*</span>}
+        </>
       </span>
+
       {showLabelPopover && popoverContent ? (
         <Popover
           isOpen={isPopoverOpen}
